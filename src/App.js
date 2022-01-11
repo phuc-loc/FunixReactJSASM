@@ -13,19 +13,23 @@ class App extends Component {
       dishes: DISHES 
     }
   }
+
   render(){
-  return (
-    <div>
-      <Navbar dark color="priamry">
-        <div className="container">
-          <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
-        </div>
-      </Navbar>
-      <Menu dishes={this.state.dishes}/>
-      
-    </div> 
-  );
+    return (
+      <div>
+
+        <Navbar color = "warning" color ="dark" expand="md">
+          <div className="container">
+            <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
+          </div>
+        </Navbar>
+
+        <Menu dishes={this.state.dishes}/>
+
+      </div>
+    );
   }
+
 }
 
 export default App;
