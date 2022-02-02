@@ -1,31 +1,40 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+
 import { Navbar, NavbarBrand } from 'reactstrap';
-import Menu from './components/MenuComponent';
+import StaffList from './components/StaffListcomponent';
 import './App.css';
-import { DISHES} from './shared/dishes';
+import { STAFFS } from './shared/staffs';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      dishes: DISHES 
+      staffs: STAFFS
     }
   }
+
   render(){
-  return (
-    <div>
-      <Navbar dark color="priamry">
-        <div className="container">
-          <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
-        </div>
-      </Navbar>
-      <Menu dishes={this.state.dishes}/>
-      
-    </div> 
-  );
+    return (
+      <div>
+
+        <Navbar dark color ="primary" expand="md">
+          
+              
+              <div className="container">
+                <NavbarBrand href="/">Ứng dụng quản lý nhân sự (v1.0)</NavbarBrand>
+              </div>
+        
+        
+        </Navbar>
+
+        
+        <StaffList staffs={this.state.staffs}/>
+
+      </div>
+    );
   }
+
 }
 
 export default App;
