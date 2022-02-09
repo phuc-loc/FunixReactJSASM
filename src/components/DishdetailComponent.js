@@ -78,11 +78,14 @@ import {Link} from 'react-router-dom';
         
         <BreadcrumbItem><Link to='/menu'>Menu</Link></BreadcrumbItem>
         <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+        
     </Breadcrumb>
+    
     <div className="col-12">
         <h3>{props.dish.name}</h3>
         <hr/>
     </div>
+    
     </div>
             <div className='row'>
                 <RenderDish dish={props.dish} />
