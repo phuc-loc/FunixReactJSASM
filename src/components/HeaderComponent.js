@@ -5,14 +5,18 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,
 
 import { NavLink } from "react-router-dom";
 
+
+
 class Header extends Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             isNavOpen: false,
             isModalOpen: false
         }
+
         this.toggleNav = this.toggleNav.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
@@ -28,10 +32,14 @@ class Header extends Component {
         this.setState( {isModalOpen: !this.state.isModalOpen} );
     }
 
-    handleLogin (a) {
+    handleLogin (x) {
+
         this.toggleModal();
-        alert("Username: " + this.username.value + "Password: " + this.password.value + " Remember: " + this.remember.checked);
-        a.preventDefault();
+
+        alert("Username: " + this.username.value + "Password: " + this.password.value +
+         " Remember: " + this.remember.checked);
+
+        x.preventDefault();
 
     }
 
@@ -75,6 +83,7 @@ class Header extends Component {
                                         <span className="fa fa-address-card fa-lg"></span> Contact Us
                                     </NavLink>
                             </NavItem>
+
                         
                         </Nav>
 
