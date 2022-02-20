@@ -1,47 +1,46 @@
-import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
-import StaffDetail from './StaffDetailcomponent';
+import { Link } from 'react-router-dom';
 
-class StaffList extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            selectedStaff: null
-        }
-    }
 
-    onStaffSelect(staff){
-        this.setState({selectedStaff:staff});
-    }
+function RenderStaffItem( {a} )  {
 
-    
+    return(
+        <Card>
+            <Link to={`/nhanvien/${a.id}`}>
 
-    render(){
-        const stafflist=this.props.staffs.map((staff) => {
-            return (
-                <div key={staff.id} className="col-lg-4 col-sm-6 col-xs-12  mt-1">
-                    <Card onClick={()=>this.onStaffSelect(staff)}>
-                        
-                        
-                        <CardTitle> {staff.name}</CardTitle>
-                       
+                <CardImg src={a.image} alt={a.name} />
+            
+                <CardTitle className="row justify-content-center"> {a.name} </CardTitle>
 
-                    </Card>
-                </div>
-            );
-        });
-        
+            </Link>
+        </Card>
+    );
+
+}
+
+
+const StaffList = (props) => {
+
+    const stafflist = props.staffs.map( (a) => {
         return (
-            <div className="container">
-                <div className="row">
-                    {stafflist}
-                </div>
-                <div className="row">
-                    <StaffDetail staff={this.state.selectedStaff}/>
-                </div>
+           <div key={a.id} className="col-lg-2 col-sm-4 col-xs-6  mt-3"> 
+                <RenderStaffItem a={a} />
             </div>
         );
+        
+    });
+   
+    return (
+        <div className="container">
+            <h4 className="pt-3">Nhân Viên</h4>
+            <hr />
+            <div className="row">
+                {stafflist}
+            </div>
+        </div>
+    );
 
-    }
 }
+       
+
 export default StaffList;
