@@ -10,11 +10,15 @@ const isNumber = (val) => !isNaN(Number(val)) ;
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 function Contact(props) {
-    function handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+
+    function handleSubmit(x) {
+
+        console.log('Current State is: ' + JSON.stringify(x));
+
+        alert('Current State is: ' + JSON.stringify(x));
      
     }
+    
     return(
         <div className="container">
             <div className="row row-content">
@@ -44,7 +48,7 @@ function Contact(props) {
                 </div>
             </div>
 
-            <LocalForm onSubmit={(values) => handleSubmit(values) }>
+            <LocalForm onSubmit={ (x) => handleSubmit(x) }>
 
             <Row className="form-group">
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
@@ -55,7 +59,7 @@ function Contact(props) {
                                         validators={{
                                             required, minLength: minLength(3), maxLength: maxLength(15)
                                         }}
-                                         />
+                                    />
                                     <Errors
                                         className="text-danger"
                                         model=".firstname"
@@ -67,7 +71,8 @@ function Contact(props) {
                                         }}
                                      />
                                 </Col>
-                            </Row>
+                </Row>
+
                             <Row className="form-group">
                                 <Label htmlFor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
@@ -90,6 +95,7 @@ function Contact(props) {
                                      />
                                 </Col>
                             </Row>
+
                             <Row className="form-group">
                                 <Label htmlFor="telnum" md={2}>Contact Tel.</Label>
                                 <Col md={10}>
@@ -113,6 +119,7 @@ function Contact(props) {
                                      />
                                 </Col>
                             </Row>
+
                             <Row className="form-group">
                                 <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>

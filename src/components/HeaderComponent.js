@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 class Header extends Component {
 
     constructor(props){
+
         super(props);
 
         this.state = {
@@ -34,12 +35,12 @@ class Header extends Component {
 
     handleLogin (x) {
 
-        this.toggleModal();
-
         alert("Username: " + this.username.value + "Password: " + this.password.value +
-         " Remember: " + this.remember.checked);
+        " Remember: " + this.remember.checked);
 
         x.preventDefault();
+
+        this.toggleModal();
 
     }
 
@@ -112,7 +113,7 @@ class Header extends Component {
 
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     
-                    <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+                    <ModalHeader>Login</ModalHeader>
                     
                     <ModalBody>
                         <Form onSubmit={this.handleLogin}>
@@ -132,7 +133,7 @@ class Header extends Component {
                             <FormGroup check>
                                 <Label check>
                                     <Input type="checkbox" name="remember"
-                                         innerRef={ (input) => this.remember = input } />
+                                            innerRef={ (input) => this.remember = input } />
                                     Remember me
                                 </Label>
                             </FormGroup>

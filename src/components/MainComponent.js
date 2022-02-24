@@ -60,20 +60,20 @@ class Main extends Component {
                           <div>
                                   <Header  />
                                   
-                              
+              
                                   <Switch>
 
-                                    <Route path="/home" component={ HomePage } />
-                                    
-                                    <Route exact path="/menu" component={ () => <Menu dishes={this.props.dishes}/> } />
+                                      <Route path="/home" component={ HomePage } />
+                                      
+                                      <Route exact path="/menu" component={ () => <Menu dishes={this.props.dishes}/> } />
 
-                                    <Route path="/menu/:dishId" component={DishWithId} />
+                                      <Route path="/menu/:dishId" component={DishWithId} />
 
-                                    <Route exact path="/contactus" component={ Contact } />
-{/* //chỗ này bạn không truyền leader qua thì làm sao có mà render đc ^^ , */}
-                                    <Route exact path="/aboutus" component={ () => <About leaders={this.props.leaders}/> } />
-                                    
-                                    <Redirect to="/home" />
+                                      <Route exact path="/contactus" component={ Contact } />
+
+                                      <Route exact path="/aboutus" component={ () => <About leaders={this.props.leaders}/> } />
+                                      
+                                      <Redirect to="/home" />
                                     
                                   </Switch>
                                   
