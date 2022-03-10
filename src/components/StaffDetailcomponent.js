@@ -34,7 +34,8 @@ function RenderStaff( {staff} ) {
 
 
 const StaffDetail = (props) => {
-        const staff = props.staff;
+    
+        const staff = props.staff; 
 
         console.log(staff);
         
