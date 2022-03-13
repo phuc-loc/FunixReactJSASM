@@ -3,7 +3,8 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom';
 
 function RenderStaff( {staff} ) {
-    console.log('render:'+JSON.stringify(staff));
+    console.log('render', staff);
+
     
     if (staff != null) {
         return (
@@ -29,8 +30,9 @@ function RenderStaff( {staff} ) {
 }
 
 function StaffDetail(props){
-    
-    console.log(props);
+    // cai nay no goi tu dau 
+
+    console.log('props',props);
     
     const staff = props.staff;
     //console.log(staff);

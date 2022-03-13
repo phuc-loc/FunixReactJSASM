@@ -18,10 +18,14 @@ class Main extends Component {
 
     render() {
         const StaffWithId = ({match}) => {
-            console.log (match.params.staffId);
-            console.log(this.state.staffs.id);
+
+            console.log ('match', match.params.staffId);
+            console.log(this.state.staffs.filter( (staff) => staff.id) );
+            // console.log cai nay ra
+            console.log( 'check', this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId))[0]);
+            let item =  this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId),10)[0];
             return(
-                <StaffDetail staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10)[0])} />
+                <StaffDetail staff={item} />
             );
         }
         return (
