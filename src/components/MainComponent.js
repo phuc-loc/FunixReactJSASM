@@ -14,9 +14,18 @@ class Main extends Component {
         this.state = {
             staffs : STAFFS
         }
+        this.onAddStaff = this.onAddStaff.bind(this);
     }
 
+    onAddStaff = (newStaff) => {
+        this.setState({ staffs: [...this.state.staffs, newStaff] });
+        console.log('bbbb',newStaff);
+      };
+
     render() {
+
+        console.log('aaaa',this.state.staffs);
+
         const StaffWithId = ({match}) => {
 
             console.log ('match', match.params.staffId);
@@ -32,10 +41,13 @@ class Main extends Component {
             <div>
                 <Header />
                 <Switch>
-                    <Route exact path="/nhanvien"    component = {() => <StaffList staffs={this.state.staffs} />} />
+                    <Route exact path="/nhanvien"    component = { () => <StaffList staffs={this.state.staffs} 
+                                                                                    onAddStaff={this.onAddStaff} 
+                                                                            />
+                                                                }  />
                     <Route path="/nhanvien/:staffId" component = {StaffWithId} />
                     <Route path="/phongban"          component = {Department} />
-                    <Route path="/bangluong"         component = {() => <Salary staffs={this.state.staffs} />} />
+                    <Route path="/bangluong"         component = {() => <Salary staffs={this.state.staffs}  />} />
                     <Redirect to="/" />
                 </Switch>
                 <Footer />

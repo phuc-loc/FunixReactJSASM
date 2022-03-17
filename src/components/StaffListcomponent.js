@@ -1,82 +1,102 @@
 import React, { useState } from 'react';
-import { Card, CardImg, CardTitle,
-         Button, Modal } from 'reactstrap';
+import {
+    Card, CardImg, CardTitle,
+    Button, Modal,
+    Row, Col, Label,
+    Form, Input
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Control, LocalForm } from 'react-redux-form';
+import { Control, LocalForm, Errors } from 'react-redux-form';
 import AddStaff from './AddStaffComponent';
 
-//Function 1
-function RenderStaffItem( {a} ) {
-    return (
-        <Card>
-            <Link to={`/nhanvien/${a.id}`}>
-                <CardImg src={a.image} alt={a.name} />
-                <CardTitle className="row justify-content-center"> {a.name} </CardTitle>
-            </Link>
-        </Card>
-    );
+                function RenderStaffItem( { a, onClick } ) {
+                    return (
+                        <Card>
+                            <Link to={`/nhanvien/${a.id}`}>
+                                <CardImg src={a.image} alt={a.name} />
+                                <CardTitle className="row justify-content-center"> {a.name} </CardTitle>
+                            </Link>
+                        </Card>
+                    );
 
-}
+                }
 
-//======Function 2 (function chính)======
-function StaffList (props)  {
 
-    const [staffs, setStaffs] = useState(props.staffs);  //***(quan trọng), state của Staff List, dùng cho tất cả về sau trong function
-    const [isModalOpen, setModalOpen] = useState(false);
+function StaffList(props) {
 
-    const toggleModal = () => {
-        setModalOpen(!isModalOpen);
-    }
+    const [searchInput, setSearchInput] = useState("");
+    const [searchStaff, setSearchStaff] = useState(props.staffs);
 
-    const handleSubmit = (values) => {
-        //console.log(values);
-        if(values.name){
-            const newStaffList = staffs.filter( (staff) => {
-                return staff.name.toLowerCase().indexOf(values.name.toLowerCase()) !== -1;
-            });
-            //console.log(newStaffList);
-            setStaffs(newStaffList);
-        }else{
-            const newStaffList = staffs;
-            setStaffs(newStaffList);
+    const submitSearch = (e) => {
+        e.preventDefault();
+        searchName(searchInput);
+    };
+
+    const searchName = (value) => {
+        const sName = value;
+        if (sName !== "") {
+            const result = props.staffs.filter((s) =>
+                s.name.toLowerCase().match(sName.toLowerCase())
+            );
+            if (result.length > 0) {
+                setSearchStaff(result);
+            } else {
+                alert("Không tìm thấy kết quả");
+            }
+        } else {
+            setSearchStaff([...props.staffs]);
         }
+    };
 
-    }
 
-    const stafflist = staffs.map( (a) => {
+    const onAddStaff = (staff) => {   //nhan newStaff tu  onStaff (o AddStaff)
+        props.onAddStaff(staff);        //truyen vao   onAddStaff (o Main)
+    };
+
+    const staff1 = searchStaff.map((staff) => {
         return (
-            <div key={a.id} className="col-lg-2 col-sm-4 col-xs-6  mt-3">
-                <RenderStaffItem a={a} />
+            <div className="col-lg-2 col-md-4 col-6" key={staff.id}>
+                <RenderStaffItem a={staff} onClick={props.onClick} />
             </div>
         );
     });
 
-    //=======Render===========
+
+
     return (
         <div className="container">
+
             <h4 className="pt-3">Nhân Viên</h4>
 
             {/* Nút Tìm */}
-            <div>
-                <LocalForm onSubmit={ (values) => handleSubmit(values) }>
-                    <Control.text model=".name" id="name" name="name" className="form-control" />
-                    <Button type="submit" color="primary">Tìm</Button>
-                </LocalForm>
+            <div className=" col-12 col-md-6 col-lg-8">
+                <Form onSubmit={submitSearch} className="form">
+                    <Input
+                        type="text"
+                        id="search"
+                        name="search"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        placeholder="Nhập tên nhân viên muốn tìm"
+                    />
+                    <Button
+                        type="submit"
+                        value="name"
+                        color="primary"
+                        className="search"
+                    >
+                        Tìm
+                    </Button>
+                </Form>
             </div>
 
-            {/*Nút Thêm*/}
-            <div>
-                <Button onClick={toggleModal}>
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </Button>
-                <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                    <AddStaff toggleModal={toggleModal} />
-                </Modal>
-            </div>
+            {/* Nút Add */}
+            <AddStaff staffList={props.staffs} onStaff={onAddStaff} />
+
             <hr />
 
             <div className="row">
-                {stafflist}
+                {staff1}
             </div>
         </div>
     );
