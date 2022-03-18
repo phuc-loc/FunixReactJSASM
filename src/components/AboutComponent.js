@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Media } from 'reactstrap';
 
 function RenderLeader( {leader} ) {
-    //lấy được leader rồi đó , bạn tự viết thêm nữa nhé ..... Ở main component bạn phaỉ truyền sang thì ở đây mới có 
+
     console.log('LEADERS ' + JSON.stringify(leader));
     
     return (
