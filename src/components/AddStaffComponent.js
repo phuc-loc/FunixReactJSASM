@@ -37,16 +37,17 @@ class AddStaff extends Component {
         this.toggleModal = this.toggleModal.bind(this);
     }
 
-    toggleModal () {
-        this.setState({isModalOpen:!this.state.isModalOpen});
+    toggleModal() {
+        this.setState({ isModalOpen: !this.state.isModalOpen });
     }
 
     handleSubmit(values) {
+
         const department = DEPARTMENTS.find(
-            (department) => department.id === this.state.department
-          );
-          
-          const newStaff = {
+            (department) => department.id === values.department
+        );
+
+        const newStaff = {
             id: this.props.staffList.length, // <-staffList
             name: values.name,
             doB: values.doB,
@@ -56,16 +57,16 @@ class AddStaff extends Component {
             annualLeave: values.annualLeave,
             overTime: values.overTime,
             image: "/assets/images/alberto.png",
-          };
-      
-          // Đièu kiện người dùng nhập đầy đủ các trường
-          if (newStaff.name === "") {
+        };
+
+        // Đièu kiện người dùng nhập đầy đủ các trường
+        if (newStaff.name === "") {
             alert("Vui lòng nhập các trường");
-          } else {
+        } else {
             this.props.onStaff(newStaff);  // <-onStaff
-          }
-     }
-    
+        }
+    }
+
 
     render() {
         return (
@@ -75,7 +76,8 @@ class AddStaff extends Component {
                 </Button>
 
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                    <LocalForm onSubmit={ (values) => this.handleSubmit(values) }>
+                    
+                    <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
 
                         <Row className="form-group">
                             <Label htmlFor="name" md={2}>Tên</Label>
@@ -149,13 +151,13 @@ class AddStaff extends Component {
                         <Row className="form-group">
                             <Label htmlFor="department" md={2}>Phòng ban</Label>
                             <Col md={10}>
-                                <Control.select model=".department" name="department"
+                                <Control.select defaultValue="Dept01" model=".department" name="department"
                                     className="form-control">
-                                    <option>Sale</option>
-                                    <option>HR</option>
-                                    <option>Marketing</option>
-                                    <option>IT</option>
-                                    <option>Finance</option>
+                                    <option value="Dept01">Sale</option>
+                                    <option value="Dept02">HR</option>
+                                    <option value="Dept03">Marketing</option>
+                                    <option value="Dept04">IT</option>
+                                    <option value="Dept05">Finance</option>
                                 </Control.select>
                             </Col>
                         </Row>

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import AddStaff from './AddStaffComponent';
 
-                function RenderStaffItem( { a, onClick } ) {
+                function RenderStaffItem( { a } ) {
                     return (
                         <Card>
                             <Link to={`/nhanvien/${a.id}`}>
@@ -56,7 +56,7 @@ function StaffList(props) {
     const staff1 = searchStaff.map((staff) => {
         return (
             <div className="col-lg-2 col-md-4 col-6" key={staff.id}>
-                <RenderStaffItem a={staff} onClick={props.onClick} />
+                <RenderStaffItem a={staff}  />
             </div>
         );
     });

@@ -3,9 +3,7 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom';
 
 function RenderStaff( {staff} ) {
-    console.log('render', staff);
-
-    
+    //console.log('render', staff);
     if (staff != null) {
         return (
             <div className="container">
