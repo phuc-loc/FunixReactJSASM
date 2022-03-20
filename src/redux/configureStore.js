@@ -7,12 +7,16 @@ import { Leaders } from './leaders';
 export const ConfigureStore = () => {
 
     const store = createStore(
-        combineReducers({
+
+        combineReducers(
+            {
             dishes : Dishes,
-            comments: Comments,
+            comments: Comments,  //Nhận từ action (thay đổi state của comments.js)
             promotions : Promotions,
             leaders : Leaders
-        })
+            }
+        )
+
     );
     return store;
     

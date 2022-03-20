@@ -4,38 +4,31 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrum
 import { Link } from 'react-router-dom';
 
 
-function RenderMenuItem ( {dish} ) {
-      return(
+function RenderMenuItem({ dish }) {
+    return (
         <Card >
-
-            <Link to={ `/menu/${dish.id}` } >                                                
-            
-                <CardImg width="100%" object src={dish.image} alt={dish.name} />                                                          
-                
+            <Link to={`/menu/${dish.id}`} >
+                <CardImg width="100%" object src={dish.image} alt={dish.name} />
                 <CardImgOverlay>
-                    <CardTitle>{dish.name}</CardTitle>    
+                    <CardTitle>{dish.name}</CardTitle>
                 </CardImgOverlay>
-            
             </Link>
-
         </Card>
-      );
+    );
 }
-   
-    
-  const Menu = (props) => {
-                const menu=props.dishes.map( (dish) => {
-                    return (
-                        <div key={dish.id} className="col-12 col-md-5  mt-1">
-                        <RenderMenuItem dish={dish} />  
-                        </div>
-                    );
-                }  
-            );
 
-            return (
-            <div className="container">
+const Menu = (props) => {
+    const menu = props.dishes.map((dish) => {
+        return (
+            <div key={dish.id} className="col-12 col-md-5  mt-1">
+                <RenderMenuItem dish={dish} />
+            </div>
+        );
+    }
+    );
 
+    return (
+        <div className="container">
 
             <div className="row">
                 <Breadcrumb>
@@ -48,18 +41,15 @@ function RenderMenuItem ( {dish} ) {
                 </div>
             </div>
 
-
-
             <div className="row">
                 {menu}
             </div>
 
-
-            </div>
-            );
+        </div>
+    );
 
 }
-        
+
 
 
 export default Menu;
