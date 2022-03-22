@@ -5,8 +5,8 @@ import {
 } from "reactstrap";
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-
-
+import {Loading} from './LoadingComponent';
+ 
 function RenderDish( { dish } ) {
 
     if (dish != null) {
@@ -29,7 +29,7 @@ function RenderDish( { dish } ) {
     }
 }
 
-function RenderComments( { comments, addComment, dishId } ) {
+function RenderComments( { comments, addComment, dishId } ) {   //(2). Nhận 3 biến từ (1)   , 
     if (comments == null) {
         return (<div></div>)
     }
@@ -58,16 +58,33 @@ function RenderComments( { comments, addComment, dishId } ) {
             <ul className='list-unstyled'>
                 {cmnts}
             </ul>
-            <CommentForm dishId={dishId} addComment={addComment} />
+            {/* (3). Nhận 2 biến từ 2 */}
+            <CommentForm dishId={dishId} addComment={addComment} /> 
         </div>
     )
 }
 
 
 const DishDetail = (props) => {
-
-    const dish = props.dish
-    if (dish == null) {
+    
+    if(props.isLoading){
+        return(
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        )
+    }else if(props.errMess){
+        return(
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        )
+    }
+    else if (props.dish == null) {
         return (<div></div>);
     }
 
@@ -88,8 +105,9 @@ const DishDetail = (props) => {
 
             <div className='row'>
                 <RenderDish dish={props.dish} />
-                {/*2. Nhận thêm 2 props là addComment và dishId*/}
+                {/* (1). Nhận thêm 2 props là addComment và dishId */}
                 <RenderComments comments={props.comments}
+                
                                 addComment={props.addComment}
                                 dishId={props.dish.id} />
 
@@ -120,9 +138,8 @@ class CommentForm extends Component {
         this.setState({ isModalOpen: !this.state.isModalOpen });
     }
 
-    //1.lấy dữ liệu truyền vào addComment
     handleComment(values) {
-
+        // (4). 2 biến từ (3) truyền vào là addComment và dishId ---> Trả về 4 biến (dishId, rating, author, comment)
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
 
         this.toggleModal();

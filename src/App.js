@@ -7,6 +7,7 @@ import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
+
 import { ConfigureStore } from './redux/configureStore';
  
 //thêm store
@@ -16,15 +17,13 @@ class App extends Component {
   
   render(){
               return (
-                //bao Provider
+                
                 <Provider store={store}>
-                <BrowserRouter>
-
-                      <div>
-                          <Main/>
-                      </div>
-
-                </BrowserRouter>
+                  <BrowserRouter>
+                        <div>
+                            <Main/>
+                        </div>
+                  </BrowserRouter>
                 </Provider>
               );
         }
