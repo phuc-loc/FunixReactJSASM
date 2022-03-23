@@ -3,7 +3,7 @@ import {
     Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label
 } from 'reactstrap';
-import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Control, Form, Errors, actions } from 'react-redux-form';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -16,6 +16,7 @@ function Contact(props) {
     function handleSubmit(x) {
         //console.log('Current State is: ' + JSON.stringify(x));
         alert('Current State is: ' + JSON.stringify(x));
+        props.resetFeedbackForm();
     }
 
     return (
@@ -47,7 +48,7 @@ function Contact(props) {
                 </div>
             </div>
 
-            <LocalForm onSubmit={(x) => handleSubmit(x)}>
+            <Form model="feedback" onSubmit={(x) => handleSubmit(x)}>
 
                 <Row className="form-group">
                     <Label htmlFor="firstname" md={2}>First Name</Label>
@@ -187,7 +188,7 @@ function Contact(props) {
                 </Row>
 
 
-            </LocalForm>
+            </Form>
         </div>
     );
 }
