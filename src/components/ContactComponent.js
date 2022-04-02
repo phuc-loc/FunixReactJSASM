@@ -47,6 +47,7 @@ function Contact(props) {
                     </div>
                 </div>
             </div>
+            <h4>Send us your feedback</h4>
 
             <Form model="feedback" onSubmit={(x) => handleSubmit(x)}>
 
