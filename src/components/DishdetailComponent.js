@@ -1,26 +1,34 @@
 import React, { Component } from "react";
 import {
     Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Modal, ModalHeader, ModalBody,
-    Label,  Button, Row, Col
+    Label, Button, Row, Col
 } from "reactstrap";
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import {Loading} from './LoadingComponent';
+import { Loading } from './LoadingComponent';
 
 import { baseUrl } from '../shared/baseUrl';
- 
-function RenderDish( { dish } ) { 
+
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
+function RenderDish({ dish }) {
 
     if (dish != null) {
         return (
             <div className='col-12 col-md-5 m-1'>
-                <Card>
-                    <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle> {dish.name}</CardTitle>
-                        <CardText> {dish.description} </CardText>
-                    </CardBody>
-                </Card>
+                <FadeTransform in
+                    transformProps={{
+                        exitTransform: 'scale(0.5) translateY(-50%)'
+                    }}
+                >
+                    <Card>
+                        <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+                        <CardBody>
+                            <CardTitle> {dish.name}</CardTitle>
+                            <CardText> {dish.description} </CardText>
+                        </CardBody>
+                    </Card>
+                </FadeTransform>
             </div>
         );
     }
@@ -31,54 +39,60 @@ function RenderDish( { dish } ) {
     }
 }
 
-function RenderComments( { comments, addComment, dishId } ) {   //(2). Nhận 3 biến từ (1)   , 
+function RenderComments({ comments, addComment, dishId }) {   //(2). Nhận 3 biến từ (1)   , 
     if (comments == null) {
         return (<div></div>)
     }
+
     const cmnts = comments.map((comment) => {
         return (
-            <li key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>-- {comment.author},
-                    &nbsp;
-                    {new Intl.DateTimeFormat('en-US',
-                        {
-                            year: 'numeric',
-                            month: 'long',
-                            day: '2-digit'
-                        })
-                        .format(new Date(Date.parse(comment.date)))
-                    }
-                </p>
-            </li>
+            <Fade in>
+                <li key={comment.id}>
+                    <p>{comment.comment}</p>
+                    <p>-- {comment.author},
+                        &nbsp;
+                        {new Intl.DateTimeFormat('en-US',
+                            {
+                                year: 'numeric',
+                                month: 'long',
+                                day: '2-digit'
+                            })
+                            .format(new Date(Date.parse(comment.date)))
+                        }
+                    </p>
+                </li>
+            </Fade>
         )
     })
+
 
     return (
         <div className='col-12 col-md-5 m-1'>
             <h4> Comments </h4>
             <ul className='list-unstyled'>
-                {cmnts}
+                <Stagger in>
+                    {cmnts}
+                </Stagger>
             </ul>
             {/* (3). Nhận 2 biến từ 2 */}
-            <CommentForm dishId={dishId} addComment={addComment} /> 
+            <CommentForm dishId={dishId} addComment={addComment} />
         </div>
     )
 }
 
 
 const DishDetail = (props) => {
-    
-    if(props.isLoading){
-        return(
+
+    if (props.isLoading) {
+        return (
             <div className="container">
                 <div className="row">
                     <Loading />
                 </div>
             </div>
         )
-    }else if(props.errMess){
-        return(
+    } else if (props.errMess) {
+        return (
             <div className="container">
                 <div className="row">
                     <h4>{props.errMess}</h4>
@@ -90,7 +104,7 @@ const DishDetail = (props) => {
         return (<div></div>);
     }
 
-//======>render
+    //======>render
     return (
         <div class="container">
 
@@ -109,9 +123,9 @@ const DishDetail = (props) => {
                 <RenderDish dish={props.dish} />
                 {/* (1). Nhận thêm 2 props là addComment và dishId */}
                 <RenderComments comments={props.comments}
-                
-                                addComment={props.addComment}
-                                dishId={props.dish.id} />
+
+                    addComment={props.addComment}
+                    dishId={props.dish.id} />
 
             </div>
 
@@ -179,9 +193,9 @@ class CommentForm extends Component {
                                     <Control.text model=".author" id="author" name="author"
                                         placeholder="Name"
                                         className="form-control"
-                                        // validators={{
-                                        //     required
-                                        // }}
+                                    // validators={{
+                                    //     required
+                                    // }}
                                     />
                                     <Errors
                                         className="text-danger"
