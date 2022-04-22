@@ -14,8 +14,6 @@ function Contact (props) {
 
     const handleSubmit = (values) => {
         
-        alert(props.feedbacks);
-
         props.postFeedback (    values.firstname,
                                 values.lastname,
                                 values.telnum,

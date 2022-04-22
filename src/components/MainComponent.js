@@ -19,19 +19,17 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 const mapStateToProps = (state) => { 
    
    console.log('state',state);
+
   return {
     dishes: state.dishes,
     comments: state.comments,
     promotions: state.promotions,
     leaders: state.leaders,
-
-    feedbacks: state.feedbacks
     
   }
   
 }
 
-//Tao Props
 const mapDispatchToProps = (dispatch) => ( 
   {
     postComment: (dishId, rating, author, comment) => dispatch(
@@ -44,7 +42,7 @@ const mapDispatchToProps = (dispatch) => (
       fetchDishes()
     ),
 
-    resetFeedbackForm: () => dispatch( actions.reset('feedback') ), //giu lai thong tin khi chuyen trang
+    resetFeedbackForm: () => dispatch( actions.reset('feedback') ), 
 
     fetchComments: () => dispatch( fetchComments() ),
     fetchPromos: () => dispatch(fetchPromos()),
@@ -85,7 +83,7 @@ class Main extends Component {
 
     const DishWithId = ( { match } ) => {
       return (
-        <DishDetail  // nhận 4 props: isLoading, dish, errMess, comments, commentsErrMess
+        <DishDetail  // nhận 4 props: isLoading, dish, errMess,...   comments, commentsErrMess
           dish={this.props.dishes.dishes.filter(
                                                 (dish) => dish.id === parseInt(match.params.Id, 10)
                                               )[0]}
@@ -102,7 +100,7 @@ class Main extends Component {
       );
     }
 
-    console.log('feedback',this.props.feedbacks.feedbacks);
+    //console.log('feedback',this.props.feedbacks.feedbacks);
 
     return (
       
@@ -116,11 +114,10 @@ class Main extends Component {
               <Route path="/home" component = {HomePage} /> {/*Nhan nhieu Props*/}
               <Route exact path="/menu" component = { () => <Menu dishes={this.props.dishes} /> } />
               <Route path="/menu/:Id" component={DishWithId} /> {/*Nhan nhieu Props*/}
-              <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}
-                                                                         
-                                                                      feedbacks = {this.props.feedbacks.feedbacks} 
-                                                                      postFeedback={this.props.postFeedback}   //trả state feedbacks mới --> render ra view
-                                                                      />} />  
+              <Route exact path="/contactus" component={ () => <Contact resetFeedbackForm={this.props.resetFeedbackForm}
+                                                                        postFeedback={this.props.postFeedback}   //trả state feedbacks mới --> render ra view
+                                                                      /> 
+                                                        } />  
               <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders.leaders} />} />
               <Redirect to="/home" />
             </Switch>
