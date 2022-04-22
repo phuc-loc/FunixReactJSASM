@@ -1,27 +1,40 @@
 import React from 'react';
 import {
-    Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label
 } from 'reactstrap';
-import { Control, Form, Errors, actions } from 'react-redux-form';
+import { Control, Form, Errors, LocalForm } from 'react-redux-form';
 
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !(val) || (val.length <= len);
-const minLength = (len) => (val) => (val) && (val.length >= len);
-const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+        const required = (val) => val && val.length;
+        const maxLength = (len) => (val) => !(val) || (val.length <= len);
+        const minLength = (len) => (val) => (val) && (val.length >= len);
+        const isNumber = (val) => !isNaN(Number(val));
+        const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
-function Contact(props) {
+function Contact (props) {
 
-    function handleSubmit(x) {
-        //console.log('Current State is: ' + JSON.stringify(x));
-        alert('Current State is: ' + JSON.stringify(x));
-        props.resetFeedbackForm();
+    const handleSubmit = (values) => {
+        
+        alert(props.feedbacks);
+
+        props.postFeedback (    values.firstname,
+                                values.lastname,
+                                values.telnum,
+                                values.email,
+                                values.agree,
+                                values.contactType,
+                                values.message
+                            )
+
+        
+
+        props.resetFeedbackForm();    //!!!   
     }
 
     return (
         <div className="container">
+
             <div className="row row-content">
+
                 <div className="col-12">
                     <h3>Location Information</h3>
                 </div>
@@ -46,20 +59,24 @@ function Contact(props) {
                         <a role="button" className="btn btn-success" href="mailto:confusion@food.net"><i className="fa fa-envelope-o"></i> Email</a>
                     </div>
                 </div>
+
             </div>
+
             <h4>Send us your feedback</h4>
 
-            <Form model="feedback" onSubmit={(x) => handleSubmit(x)}>
+            <LocalForm model="feedback" onSubmit= { (values) => handleSubmit(values) } >
 
                 <Row className="form-group">
+
                     <Label htmlFor="firstname" md={2}>First Name</Label>
                     <Col md={10}>
-                        <Control.text model=".firstname" id="firstname" name="firstname"
-                            placeholder="First Name"
-                            className="form-control"
-                            validators={{
-                                required, minLength: minLength(3), maxLength: maxLength(15)
-                            }}
+
+                        <Control.text   model=".firstname" id="firstname" name="firstname"
+                                        placeholder="First Name"
+                                        className="form-control"
+                                        validators={{
+                                            required, minLength: minLength(3), maxLength: maxLength(15)
+                                        }}
                         />
                         <Errors
                             className="text-danger"
@@ -188,8 +205,8 @@ function Contact(props) {
                     </Col>
                 </Row>
 
+            </LocalForm>
 
-            </Form>
         </div>
     );
 }

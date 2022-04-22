@@ -1,3 +1,6 @@
+
+
+
 export const InitialFeedback = {
     firstname: '',
     lastname: '',
@@ -7,3 +10,6 @@ export const InitialFeedback = {
     contactType: 'Tel.',
     message:''
 }
+
+
+

@@ -8,35 +8,49 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import {
-  addComment,
-  fetchDishes, fetchComments, fetchPromos
+  postComment, postFeedback,
+  fetchDishes, fetchComments, fetchPromos, fetchLeaders
 } from '../redux/ActionCreators';
-
 import { actions } from 'react-redux-form';
-
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-//Props dishes, comments, promotions, leader
-const mapStateToProps = (state) => {  //mapStateToProps có nhiệm vụ lọc state từ ConfigureStore...
+
+const mapStateToProps = (state) => { 
+   
+   console.log('state',state);
   return {
     dishes: state.dishes,
     comments: state.comments,
     promotions: state.promotions,
-    leaders: state.leaders
+    leaders: state.leaders,
+
+    feedbacks: state.feedbacks
+    
   }
+  
 }
 
-//Props addComment
-const mapDispatchToProps = (dispatch) => (
+//Tao Props
+const mapDispatchToProps = (dispatch) => ( 
   {
-    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
-    fetchDishes: () => dispatch(fetchDishes()),
-    resetFeedbackForm: () => dispatch(actions.reset('feedback')),
-    fetchComments: () => dispatch(fetchComments()),
-    fetchPromos: () => dispatch(fetchPromos())
-  }
+    postComment: (dishId, rating, author, comment) => dispatch(
+                                  postComment(dishId, rating, author, comment)
+    ),
+    postFeedback: (fistname, lastname, telnum, email, agree, contactType, massage ) => dispatch(
+                                    postFeedback(fistname, lastname, telnum, email, agree, contactType, massage)
+    ),
+    fetchDishes: () => dispatch(
+      fetchDishes()
+    ),
+
+    resetFeedbackForm: () => dispatch( actions.reset('feedback') ), //giu lai thong tin khi chuyen trang
+
+    fetchComments: () => dispatch( fetchComments() ),
+    fetchPromos: () => dispatch(fetchPromos()),
+    fetchLeaders: () => dispatch(fetchLeaders()),  
+   }
+  
 )
 
 class Main extends Component {
@@ -45,12 +59,13 @@ class Main extends Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
   render() {
 
     const HomePage = () => {
-      // console.log('props dishes',this.props.dishes);
+
       return (
         <Home
           dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]} //<-Chu y: Vì trong state dishes (của COnfiStore), thì trong dishes.js có 1 state dishes nữa
@@ -61,45 +76,59 @@ class Main extends Component {
           promosLoading={this.props.promotions.isLoading}
           promosErrMess={this.props.promotions.errMess}
 
-          leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+          leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+          leadersLoading={this.props.leaders.isLoading}
+          leadersErrMess={this.props.leaders.errMess}
         />
       );
     }
 
-    const DishWithId = ({ match }) => {
+    const DishWithId = ( { match } ) => {
       return (
-        <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+        <DishDetail  // nhận 4 props: isLoading, dish, errMess, comments, commentsErrMess
+          dish={this.props.dishes.dishes.filter(
+                                                (dish) => dish.id === parseInt(match.params.Id, 10)
+                                              )[0]}
           isLoading={this.props.dishes.isLoading}
-          errMess={this.props.dishes.errMess}  //!!!
+          errMess={this.props.dishes.errMess}
 
-          comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+
+          comments = {this.props.comments.comments.filter(
+                                                          (comment) => comment.dishId === parseInt(match.params.Id, 10)
+                                                        )}
           commentsErrMess={this.props.comments.errMess}
-
-          addComment={this.props.addComment} //Nhận props addComment
+          postComment={this.props.postComment} 
         />
       );
     }
+
+    console.log('feedback',this.props.feedbacks.feedbacks);
 
     return (
+      
       <div>
-
+        
         <Header />
 
         <TransitionGroup>
           <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
             <Switch>
-              <Route path="/home" component={HomePage} />
-              <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
-              <Route path="/menu/:dishId" component={DishWithId} />
-              <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-              <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders} />} />
+              <Route path="/home" component = {HomePage} /> {/*Nhan nhieu Props*/}
+              <Route exact path="/menu" component = { () => <Menu dishes={this.props.dishes} /> } />
+              <Route path="/menu/:Id" component={DishWithId} /> {/*Nhan nhieu Props*/}
+              <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm}
+                                                                         
+                                                                      feedbacks = {this.props.feedbacks.feedbacks} 
+                                                                      postFeedback={this.props.postFeedback}   //trả state feedbacks mới --> render ra view
+                                                                      />} />  
+              <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders.leaders} />} />
               <Redirect to="/home" />
             </Switch>
           </CSSTransition>
         </TransitionGroup>
 
         <Footer />
-
+        
       </div>
     );
   }
