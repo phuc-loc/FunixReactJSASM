@@ -1,136 +1,124 @@
 import React, { useState } from 'react';
 import {
-    Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle,
-    Breadcrumb, BreadcrumbItem,
-    Button, Row, Col, Label,
-    Modal
+    Card, CardImg, CardTitle,
+    Button,
+    Form, Input
 } from 'reactstrap';
-
 import { Link } from 'react-router-dom';
-import { Control, LocalForm, Errors } from 'react-redux-form';
+
+import {Loading} from './LoadingComponent';
+
+import { url } from '../shared/url';
 import AddStaff from './AddStaffComponent';
 
-import newStaffList from '../shared/localStaffs';
+                function RenderStaffItem( {item} ) {
+                    return (
+                        <Card>
+                            <Link to={`/nhanvien/${item.id}`}>
+                                <CardImg src={ item.image} alt={item.name} />
+                                <CardTitle className="row justify-content-center"> {item.name} </CardTitle>
+                            </Link>
+                        </Card>
+                    );
 
+                }
 
-function RenderStaffItem( {a} ) { 
-
-    return (
-        <Card>
-            <Link to={`/nhanvien/${a.id}`}>
-
-                <CardImg src={a.image} alt={a.name} />
-
-                <CardTitle className="row justify-content-center"> {a.name} </CardTitle>
-
-            </Link>
-        </Card>
-    );
-
-}
-
-
-//***Function chính
 function StaffList(props) {
+    // const [searchStaff, setSearchStaff] = useState(props.staffs);
+    //                     const [searchInput, setSearchInput] = useState("");
+    //                     const submitSearch = (e) => {   //khi submit Form , e ở onChange
+    //                         e.preventDefault();
+    //                         searchName( searchInput );  //value Form : searchInput
+    //                     };
+    //                                 const searchName = (value) => {
+    //                                     if (value !== "") {
+    //                                         const result = props.staffs.filter( (s) =>
+    //                                             s.name.toLowerCase().match( value.toLowerCase() )
+    //                                         );
+    //                                         if (result.length > 0) {
+    //                                             setSearchStaff(result);
+    //                                         } else {
+    //                                             alert("Không tìm thấy kết quả");
+    //                                         }
+    //                                     } else {
+    //                                             setSearchStaff( [...props.staffs] );
+    //                                     }
+    //                                 };
 
-    //State 1
-    const [staffs, setStaffs] = useState(props.staffs);
-    //State 2
-    const [isModalOpen, setModalOpen] = useState(false);
-
-
-
-    const toggleModal = () => {
-        setModalOpen(!isModalOpen);
-    }
-
-
-    const handleSubmit = (values) => {
-
-        if (values.name) {
-
-            const newStaffList = props.staffs.filter((staff) => {
-                return staff.name.toLowerCase().indexOf(values.name.toLowerCase()) !== -1;
-            });
-
-            setStaffs(newStaffList);
-
-        } else {
-
-            const newStaffList = props.staffs;
-
-            setStaffs(newStaffList);
-
-        }
-
-    }
-
-    const stafflist = staffs.map( (staff) => {
+    const staff = props.staffs.staffs.map( (staff) => {
         return (
-            <div key={staff.id} className="col-lg-2 col-sm-4 col-xs-6  mt-3">
-                <RenderStaffItem a = {staff} />
+            <div className="col-lg-2 col-md-4 col-6" key={staff.id}>
+                <RenderStaffItem item={staff}  />
             </div>
         );
-    });
+    } );
 
-    function onNewStaffAdded(value) {
+    // const postStaff = (staff) => {
+    //     props.postStaff(staff);
+    // }
+    // const onAddStaff = (staff) => {   //nhan newStaff tu  onStaff (o AddStaff)
+    //     props.onAddStaff(staff);        //truyen vao   onAddStaff (o Main)
+    // };
+    if (props.staffs.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        )
+    } else if (props.staffs.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.staffs.errMess}</h4>
+                </div>
+            </div>
+        )
+    } else
+    
 
-        console.log('Nhân viên mới ở StaffList', value)
-
-        let newStaff = {
-            id: staffs.length,
-            name: value.name,
-            doB: value.doB,
-            salaryScale: value.salaryScale,
-            startDate: value.startDate,
-            department: value.department,
-            annualLeave: value.annualLeave,
-            overTime: value.overTime,
-            salary: 0,
-            image: '/assets/images/alberto.png'
-        }
-        
-        setStaffs( [ ...staffs, newStaff ] )
-        localStorage.setItem('newStaffList', [ ...newStaffList, newStaff ]);
-    }
-
-
-
-    //***Return chính của function
     return (
         <div className="container">
 
             <h4 className="pt-3">Nhân Viên</h4>
+            {/* Nút Tìm */}
+            <div className=" col-12 col-md-6 col-lg-8">
 
-            {/*nút search*/}
-            <div>
-                <LocalForm onSubmit={(values) => handleSubmit(values)}>
-                    <Row className="form-group">
-                        <Control.text model=".name" id="name" name="name"
-                            className="form-control"
-                        />
-                        <Button type="submit" color="primary">Tìm</Button>
-                    </Row>
-                </LocalForm>
+                <Form  className="form">  {/*onSubmit={submitSearch}*/}
+                    <Input
+                        type="text"
+                        id="search"
+                        name="search"
+                        //value={searchInput}
+                        //onChange={ (e) => setSearchInput(e.target.value) }
+                        placeholder="Nhập tên nhân viên muốn tìm"
+                    />
+                    <Button
+                        type="submit"
+                        value="name"
+                        color="primary"
+                        className="search"
+                    >
+                        Tìm
+                    </Button>
+                </Form>
+
             </div>
 
-            {/*nút thêm NV*/}
-            <Button onClick={toggleModal}><i class="fa fa-plus" aria-hidden="true"></i></Button>
-            <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                <AddStaff onAddStaff={onNewStaffAdded} toggleModal={toggleModal} />
-            </Modal>
+            {/* Nút Add */}
+           <AddStaff  postStaff={props.postStaff} /> 
 
             <hr />
 
             <div className="row">
-                {stafflist}
+                {staff}
             </div>
 
         </div>
     );
 
 }
-
 
 
 export default StaffList;
