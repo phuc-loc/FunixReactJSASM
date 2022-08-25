@@ -44,9 +44,6 @@ import { Link } from 'react-router-dom';
         )
     }
 
-       
-
-
     const DishDetail = (props) => {
         const dish = props.dish;
         if (dish == null) {
@@ -54,12 +51,6 @@ import { Link } from 'react-router-dom';
         }
 
         return (
-            // <div className="container">
-            //     <div className="row"> 
-            //         <RenderDish dish={dish} />
-            //         <RenderComments comments = {dish.comments} />
-            //     </div>
-            // </div>
             <div className="container">
                 <div className="row">
                     <Breadcrumb>
@@ -71,6 +62,7 @@ import { Link } from 'react-router-dom';
                         <hr />
                     </div>                
                 </div>
+                
                 <div className="row">
                         <RenderDish dish={props.dish} />
                         <RenderComments comments={props.comments} />
