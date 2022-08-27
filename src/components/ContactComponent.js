@@ -37,7 +37,7 @@ class Contact extends Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
 
         this.setState({
-          [name]: value
+          [name]: value //...objA.propsA = objA.["propsA"]
         });
     }
 
@@ -61,22 +61,22 @@ class Contact extends Component {
             email: ''
         };
 
-        if (this.state.touched.firstname && firstname.length < 3)
-            errors.firstname = 'First Name should be >= 3 characters';
-        else if (this.state.touched.firstname && firstname.length > 10)
-            errors.firstname = 'First Name should be <= 10 characters';
+                if (this.state.touched.firstname && firstname.length < 3)
+                    errors.firstname = 'First Name should be >= 3 characters';
+                else if (this.state.touched.firstname && firstname.length > 10)
+                    errors.firstname = 'First Name should be <= 10 characters';
 
-        if (this.state.touched.lastname && lastname.length < 3)
-            errors.lastname = 'Last Name should be >= 3 characters';
-        else if (this.state.touched.lastname && lastname.length > 10)
-            errors.lastname = 'Last Name should be <= 10 characters';
+                if (this.state.touched.lastname && lastname.length < 3)
+                    errors.lastname = 'Last Name should be >= 3 characters';
+                else if (this.state.touched.lastname && lastname.length > 10)
+                    errors.lastname = 'Last Name should be <= 10 characters';
 
-        const reg = /^\d+$/;
-        if (this.state.touched.telnum && !reg.test(telnum))
-            errors.telnum = 'Tel. Number should contain only numbers';
+                const reg = /^\d+$/;
+                if (this.state.touched.telnum && !reg.test(telnum))
+                    errors.telnum = 'Tel. Number should contain only numbers';
 
-        if(this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
-            errors.email = 'Email should contain a @';
+                if(this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
+                    errors.email = 'Email should contain a @';
 
         return errors;
     }
@@ -85,7 +85,6 @@ class Contact extends Component {
         const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
         return (
             <div className="container">
-
                 <div className="row">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
@@ -95,8 +94,7 @@ class Contact extends Component {
                         <h3>Contact Us</h3>
                         <hr />
                     </div>
-                </div>
-               
+                </div>             
                 <div className="row row-content">
                     <div className="col-12">
                         <h3>Location Information</h3>
@@ -123,17 +121,15 @@ class Contact extends Component {
                         </div>
                     </div>
                 </div>
-
                 {/* Form  */}
                 <div className="row row-content" >
 
                     <div className="col-12">
                         <h3>Send us your Feedback</h3>
                     </div>
-
+                    
                     <div className="col-12 col-md-9">
                         <Form onSubmit={this.handleSubmit}>
-                            
                         <FormGroup row>
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
@@ -147,6 +143,7 @@ class Contact extends Component {
                                     <FormFeedback>{errors.firstname}</FormFeedback>
                                 </Col>
                             </FormGroup>
+
                             <FormGroup row>
                                 <Label htmlFor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
