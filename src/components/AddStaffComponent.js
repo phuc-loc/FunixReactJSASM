@@ -8,8 +8,6 @@ import {
 } from "reactstrap";
 import { LocalForm, Control, Errors } from "react-redux-form";
 
-import { url } from '../shared/url';
-
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -21,34 +19,24 @@ class AddStaff extends Component {
     constructor(props) {
     
         super(props);
-
         this.state = {
             isModalOpen: false,
         }
-
         this.toggleModal = this.toggleModal.bind(this);
-
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
-
-
-
 
     toggleModal() {
         this.setState( { isModalOpen: !this.state.isModalOpen } );
     }
 
     handleSubmit(values) {
-        //departmentId
-
-
-        fetch(url+"departments")
-        .then(respone => respone.json())
-        .then( departments => departments.find(
-                (department) => department.name === values.department
-             ) )
-
+        // fetch(url+"departments")
+        // .then(respone => respone.json())
+        // .then( departments => departments.find(
+        //         (department) => department.name === values.department
+        //      ) )
 
         // const department = ({url} + "departments").find(
         //     (department) => department.name === values.department
@@ -57,9 +45,9 @@ class AddStaff extends Component {
         this.props.postStaff  (
                 values.name,
                 values.doB,
-                values.department,
                 values.salaryScale,
                 values.startDate,
+                values.department,
                 values.annualLeave,
                 values.overTime,
             )
@@ -67,7 +55,6 @@ class AddStaff extends Component {
         
     }
     
-
         // Đièu kiện người dùng nhập đầy đủ các trường  -> Sau đó onStaff
     //     if (newStaff.name === "") {
     //         alert("Vui lòng nhập các trường");
@@ -76,12 +63,8 @@ class AddStaff extends Component {
     //     }
     // }
 
-
-
-
     render() {
        // console.log('state o AddStaff',this.state)
-        
         return (
             <div>
                 <Button onClick={this.toggleModal}>
@@ -204,7 +187,7 @@ class AddStaff extends Component {
                         </Row>
 
                         <Row className="form-group">
-                            <Col md={{ size: 10, offset: 2 }}>
+                            <Col md={ { size: 10, offset: 2 } }>
                                 <Button type="submit" color="primary">Thêm</Button>
                             </Col>
                         </Row>

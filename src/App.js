@@ -9,8 +9,6 @@ import { ConfigureStore } from './redux/configureStore';
 import Main from './components/MainComponent';
 
 
-
-
 const store = ConfigureStore();
 
 class App extends Component {
